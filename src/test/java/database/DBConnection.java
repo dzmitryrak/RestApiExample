@@ -5,15 +5,17 @@ import java.sql.*;
 public class DBConnection {
     private Connection connect = null;
     private Statement statement = null;
-    private ResultSet resultSet = null;
 
-    public void connect() throws Exception {
-        connect = DriverManager
-                .getConnection("jdbc:mysql://localhost/aqa6?"
-                            + "user=root&password=password02&useSSL=true&serverTimezone=GMT");
-
+    public void connect(){
+        try {
+            connect = DriverManager
+                    .getConnection("jdbc:mysql://localhost/qa01?"
+                                + "user=root&password=password02&useSSL=true&serverTimezone=GMT");
             // Statements allow to issue SQL queries to the database
-        statement = connect.createStatement();
+            statement = connect.createStatement();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
     }
 
     public ResultSet selectFrom(String tableName) {
@@ -49,9 +51,6 @@ public class DBConnection {
     // You need to close the resultSet
     public void close() {
         try {
-            if (resultSet != null) {
-                resultSet.close();
-            }
 
             if (statement != null) {
                 statement.close();
